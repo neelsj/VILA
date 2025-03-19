@@ -31,6 +31,7 @@ from transformers import (
     PretrainedConfig,
     PreTrainedModel,
     PreTrainedTokenizer,
+    Qwen2VLForConditionalGeneration,
 )
 
 from llava.constants import MEDIA_TOKENS
@@ -170,12 +171,12 @@ def build_llm_and_tokenizer(
     if quantization_restore_from_checkpoint:
         fp8_model_name_or_path = kwargs.pop("fp8_llm_cfg", None)
 
-        llm = AutoModelForCausalLM.from_pretrained(
+        llm = Qwen2VLForConditionalGeneration.from_pretrained(
             fp8_model_name_or_path, config=llm_cfg, torch_dtype=eval(config.model_dtype), *args, **kwargs
         )
 
     else:
-        llm = AutoModelForCausalLM.from_pretrained(
+        llm = Qwen2VLForConditionalGeneration.from_pretrained(
             model_name_or_path, config=llm_cfg, torch_dtype=eval(config.model_dtype), *args, **kwargs
         )
     packing.patch(llm)

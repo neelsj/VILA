@@ -28,20 +28,33 @@ import aiofiles
 import aiohttp
 from tqdm import tqdm
 
-input_dir = "/dataset/mmc4-test/jsonl"  # path to the MMC4 annotations
-output_dir = "/dataset/mmc4-test/pkl"
+input_dir = "/datadisk/data/mmc4-core-ff/jsonl"  # path to the MMC4 annotations
+output_dir = "/datadisk/data/mmc4-core-ff/pkl"
 
 os.makedirs(output_dir, exist_ok=True)
 
-jsonl_list = sorted(os.listdir(input_dir))
+semaphore = asyncio.Semaphore(512)  # limit number of simultaneous downloads
+
+jsonl_list_full = sorted(os.listdir(input_dir))
+
+start_idx = 0
+end_idx = len(jsonl_list_full)
 
 if len(sys.argv) > 1:  # optional: shard the workload distributedly
     start_idx = int(sys.argv[1])
     end_idx = int(sys.argv[2])
-    jsonl_list = jsonl_list[start_idx:end_idx]
+    jsonl_list_full = jsonl_list_full[start_idx:end_idx]
+
+jsonl_list = []
+for json_file_file in jsonl_list_full:
+
+    shard = json_file_file.split(".")[0]
+    pkl_path = os.path.join(output_dir, str(shard) + ".pkl")
+    if not os.path.exists(pkl_path):
+        jsonl_list.append(json_file_file)
 
 all_data = []
-for fname in tqdm(jsonl_list):
+for fname in jsonl_list:
     full_path = os.path.join(input_dir, fname)
     with open(full_path) as json_file:
         json_list = list(json_file)
@@ -51,11 +64,8 @@ for fname in tqdm(jsonl_list):
         d["shard_idx"] = i_d
     all_data.extend(data_list)
 
-
-semaphore = asyncio.Semaphore(512)  # limit number of simultaneous downloads
-
-progress = tqdm(total=len(all_data), desc="Download progress")  # Initialize progress bar
-
+if len(all_data):
+    progress = tqdm(total=len(all_data), desc="Download progress")  # Initialize progress bar
 
 async def download_file(session, data, output_dict):
     async with semaphore:  # limit the number of simultaneous downloads
@@ -129,6 +139,10 @@ async def download_file(session, data, output_dict):
 
 
 async def main(data_list):
+
+    if len(data_list)==0:
+        return
+
     ssl_context = ssl.create_default_context()
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
@@ -137,11 +151,15 @@ async def main(data_list):
 
     output_dict = {}
 
-    async with aiohttp.ClientSession(connector=conn) as session:
+    session_timeout = aiohttp.ClientTimeout(total=10)
+    async with aiohttp.ClientSession(connector=conn, timeout=session_timeout) as session:
 
         tasks = []
         for data in data_list:
-            tasks.append(download_file(session, data, output_dict))
+            shard = data["shard"]
+            pkl_path = os.path.join(output_dir, shard + ".pkl")
+            if not os.path.exists(pkl_path):
+                tasks.append(download_file(session, data, output_dict))
         await asyncio.gather(*tasks)
     progress.close()  # Close progress bar when done
 

@@ -27,7 +27,7 @@ pip install -e ".[train,eval]"
 pip install triton==3.1.0
 
 # numpy introduce a lot dependencies issues, separate from pyproject.yaml
-# pip install numpy==1.26.4
+pip install numpy==1.26.4
 
 # Replace transformers and deepspeed files
 site_pkg_path=$(python -c 'import site; print(site.getsitepackages()[0])')

@@ -206,7 +206,7 @@ def training_step(
         return loss_mb.reduce_mean().detach().to(self.args.device)
 
     with self.compute_loss_context_manager():
-        loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+        loss = self.compute_loss(model, inputs)
 
     del inputs
     if (

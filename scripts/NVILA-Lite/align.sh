@@ -2,12 +2,11 @@
 
 DEFAULT_RUN_NAME="vila-qwen2-vl-7b-align"
 DEFAULT_GLOBAL_TRAIN_BATCH_SIZE=2048
-DEFAULT_GRADIENT_ACCUMULATION_STEPS=1
+DEFAULT_GRADIENT_ACCUMULATION_STEPS=3
 
-STAGE_PATH=${1:-"Efficient-Large-Model/Qwen2-VL-7B-Instruct"}
+STAGE_PATH=${1:-"Qwen/Qwen2-VL-7B-Instruct"}
 DATA_MIXTURE=${2:-"llava_15_mix"}
 OUTPUT_DIR=${3:-"runs/train/nvila-8b-align"}
-
 
 source scripts/setups/train.sh
 
@@ -46,4 +45,4 @@ torchrun \
         --model_max_length 4096 \
         --gradient_checkpointing True \
         --dataloader_num_workers 8 \
-        --report_to wandb
+        --report_to none

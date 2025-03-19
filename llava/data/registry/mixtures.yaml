@@ -359,3 +359,6 @@ vila-v1.5-sft:
     - video_chatgpt
     - wit_subset
     - youcook2
+
+llava_15_mix:
+    - llava_cc3m_pretrain-595k

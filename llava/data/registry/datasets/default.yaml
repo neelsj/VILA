@@ -3,3 +3,8 @@ dummy:
     _target_: llava.data.DummyDataset
     num_instances: 10000
     comments: dummy dataset for testing
+
+llava_cc3m_pretrain-595k:
+    _target_: llava.data.LLaVADataset
+    data_path: /data/LLaVA-CC3M-Pretrain-595K/chat.json
+    media_dir: /data/LLaVA-CC3M-Pretrain-595K/images

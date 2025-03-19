@@ -27,8 +27,8 @@ import aiohttp
 import pandas as pd
 from tqdm import tqdm
 
-input_dir = "/dataset/coyo-test/coyo-700m/data"  # path to the MMC4 annotations
-output_dir = "/dataset/coyo-test/coyo-700m/pkl"  # path to the download file
+input_dir = "/datadisk/coyo-700m/data"  # path to the MMC4 annotations
+output_dir = "/datadisk/coyo-700m/pkl"  # path to the download file
 
 os.makedirs(output_dir, exist_ok=True)
 

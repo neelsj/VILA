@@ -20,9 +20,9 @@ import pickle
 
 from tqdm import tqdm
 
-data_path = "/dataset/mmc4-core/jsonl-filtered"
-pkl_path = "/dataset/mmc4-core/pkl"  # where the image stores
-output_path = "/dataset/mmc4-core/pkl-core"
+data_path = "/datadisk/data/mmc4-core-ff/jsonl-filtered"
+pkl_path = "/datadisk/data/mmc4-core-ff/pkl"  # where the image stores
+output_path = "/datadisk/data/mmc4-core-ff/pkl-core"
 
 shard_names = [f for f in os.listdir(data_path) if f.endswith(".jsonl")]
 # now load data

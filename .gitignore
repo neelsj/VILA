@@ -1,0 +1,5 @@
+*.pyc
+runs/
+jsons*
+*egg-info*
+wandb*

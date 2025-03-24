@@ -5,25 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File with Arguments",
+            "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "args": ["0", "1"]
-        }
+            "console": "integratedTerminal"
+        },
         // {
         //     "name": "Python Debugger: Current File with Arguments",
         //     "type": "debugpy",
         //     "request": "launch",
-        //     "program": "/home/neel/miniconda3/envs/bunny/bin/deepspeed",
+        //     "program": "/home/neel/miniconda3/envs/vila/bin/torchrun",
         //     "console": "integratedTerminal",
         //     "args": [
+        //         "--nnodes=1",
+        //         "--nproc_per_node=2",
+        //         "--node_rank=0",
+        //         "--master_addr=127.0.0.1",
+        //         "--master_port=25001",
         //         "llava/train/train_mem.py",
         //         "--deepspeed",
         //         "scripts/zero3.json",
         //         "--model_name_or_path",
-        //         "/datadisk/Qwen2-VL-7B-Instruct",
+        //         "Qwen/Qwen2-VL-7B-Instruct",
         //         "--chat_template",
         //         "qwen2",
         //         "--data_mixture",
@@ -55,15 +59,15 @@
         //         "--num_train_epochs",
         //         "1",
         //         "--per_device_train_batch_size",
-        //         "512",
+        //         "128",
         //         "--gradient_accumulation_steps",
-        //         "1",
+        //         "8",
         //         "--evaluation_strategy",
         //         "no",
         //         "--save_strategy",
         //         "steps",
         //         "--save_steps",
-        //         "100",
+        //         "1",
         //         "--save_total_limit",
         //         "1",
         //         "--learning_rate",
@@ -81,7 +85,9 @@
         //         "--gradient_checkpointing",
         //         "True",
         //         "--dataloader_num_workers",
-        //         "8"
+        //         "8",
+        //         "--report_to",
+        //         "none"
         //     ]
         // }
     ]

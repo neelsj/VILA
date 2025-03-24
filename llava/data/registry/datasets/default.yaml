@@ -6,5 +6,34 @@ dummy:
 
 llava_cc3m_pretrain-595k:
     _target_: llava.data.LLaVADataset
-    data_path: /data/LLaVA-CC3M-Pretrain-595K/chat.json
-    media_dir: /data/LLaVA-CC3M-Pretrain-595K/images
+    data_path: data/LLaVA-CC3M-Pretrain-595K/chat.json
+    media_dir: data/LLaVA-CC3M-Pretrain-595K/images
+
+docmatix:
+    _target_: llava.data.LLaVADataset
+    data_path: data/Docmatix/train.jsonl
+    media_dir: data/Docmatix 
+
+# 468668 instances
+allava_caption_laion_4v:
+    _target_: llava.data.LLaVADataset
+    data_path: data/ALLaVA-4V/ALLaVA-Caption-LAION-4V_good.json
+    media_dir: data/ALLaVA-4V  
+
+# 194976 instances
+allava_caption_vflan_4v:
+    _target_: llava.data.LLaVADataset
+    data_path: data/ALLaVA-4V/allava_vflan/ALLaVA-Caption-VFLAN-4V_good.json
+    media_dir: data/ALLaVA-4V/allava_vflan  
+
+# 29992 instances
+lsvt:
+    _target_: llava.data.LLaVADataset
+    data_path: data/LSVT/LSVT_processed_good.json
+    media_dir: data/LSVT/images
+
+# 5603 instances
+art:
+    _target_: llava.data.LLaVADataset
+    data_path: data/ArT/ART_processed1_good.json
+    media_dir: data/ArT/images

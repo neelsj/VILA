@@ -2,7 +2,7 @@
 
 DEFAULT_RUN_NAME="vila-qwen2-vl-7b-align"
 DEFAULT_GLOBAL_TRAIN_BATCH_SIZE=2048
-DEFAULT_GRADIENT_ACCUMULATION_STEPS=3
+DEFAULT_GRADIENT_ACCUMULATION_STEPS=8
 
 STAGE_PATH=${1:-"Qwen/Qwen2-VL-7B-Instruct"}
 DATA_MIXTURE=${2:-"llava_15_mix"}
@@ -10,7 +10,7 @@ OUTPUT_DIR=${3:-"runs/train/nvila-8b-align"}
 
 source scripts/setups/train.sh
 
-torchrun \
+echo torchrun \
     --nnodes=$NNODES --nproc_per_node=$GPUS_PER_NODE --node_rank=$NODE_RANK \
     --master_addr=$MASTER_ADDR --master_port=$MASTER_PORT \
     llava/train/train_mem.py \
@@ -35,7 +35,7 @@ torchrun \
         --gradient_accumulation_steps $GRADIENT_ACCUMULATION_STEPS \
         --evaluation_strategy no \
         --save_strategy steps \
-        --save_steps 100 \
+        --save_steps 10 \
         --save_total_limit 1 \
         --learning_rate 1e-3 \
         --weight_decay 0. \

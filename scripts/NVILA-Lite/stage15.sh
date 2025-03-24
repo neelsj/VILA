@@ -2,7 +2,7 @@
 
 DEFAULT_RUN_NAME="vila-qwen2-vl-7b-pretrain"
 DEFAULT_GLOBAL_TRAIN_BATCH_SIZE=1024
-DEFAULT_GRADIENT_ACCUMULATION_STEPS=1
+DEFAULT_GRADIENT_ACCUMULATION_STEPS=64
 
 STAGE_PATH=${1:-"runs/train/nvila-8b-pretrain/model"}
 DATA_MIXTURE=${2:-"nvila-pretrain-15"}
@@ -36,7 +36,7 @@ torchrun \
         --gradient_accumulation_steps $GRADIENT_ACCUMULATION_STEPS \
         --evaluation_strategy no \
         --save_strategy steps \
-        --save_steps 100 \
+        --save_steps 10 \
         --save_total_limit 1 \
         --learning_rate 5e-5 \
         --weight_decay 0. \
@@ -45,5 +45,5 @@ torchrun \
         --logging_steps 1 \
         --model_max_length 4096 \
         --gradient_checkpointing True \
-        --dataloader_num_workers 4 \
-        --report_to wandb
+        --dataloader_num_workers 8 \
+        --report_to none

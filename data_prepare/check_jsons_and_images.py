@@ -9,6 +9,18 @@ import csv
 input_path = "/home/neel/data/"
 out_path = "/datadisk/data/checked"
 
+def load_json(json_file):
+    if os.path.splitext(json_file)[1] == ".jsonl":
+        data = []
+        with open(json_file, 'r') as file:
+            for line in file:
+                data.append(json.loads(line))     
+    else:
+        with open(json_file, 'r') as file:
+            data = json.load(file)
+
+    return data
+
 #json_out = "/home/neel/src/VILA/data_prepare/jsons.txt"
 
 #dirs = os.listdir(input_path)
@@ -25,25 +37,16 @@ out_path = "/datadisk/data/checked"
 #             f.write("\n")
 #             f.flush()
 
-json_out = "/home/neel/src/VILA/data_prepare/jsons_selected.txt"
-json_stats = "/home/neel/src/VILA/data_prepare/jsons_selected_good.jsonl"
-json_stats_csv = "/home/neel/src/VILA/data_prepare/jsons_selected_good.csv"
+json_out = "/home/neel/src/VILA/data_prepare/jsons_selected2.txt"
+json_stats = "/home/neel/src/VILA/data_prepare/jsons_selected2_good.jsonl"
+json_stats_csv = "/home/neel/src/VILA/data_prepare/jsons_selected2_good.csv"
 
 with open(json_out,"r") as f:
     jsons_selected =  f.read().splitlines()
 
-# jsons_selected = jsons_selected[8:]
-
-# llava_cc3m_pretrain-595k:
-#     _target_: llava.data.LLaVADataset
-#     data_path: /data/LLaVA-CC3M-Pretrain-595K/chat.json
-#     media_dir: /data/LLaVA-CC3M-Pretrain-595K/images
-
 total_total = 0
 for json_file in tqdm(jsons_selected):
-    with open(json_file, 'r') as file:
-        data = json.load(file)
-
+    data = load_json(json_file)
     total_total += len(data)
 
 progress = tqdm(total=total_total)
@@ -59,8 +62,7 @@ with open(json_stats_csv,"w") as csvfile:
         for jj, json_file in enumerate(jsons_selected):
             try:  
 
-                with open(json_file, 'r') as file:
-                    data = json.load(file)
+                data = load_json(json_file)
 
                 json_file_dir = os.path.dirname(json_file)
                 dirs = [a for a in os.listdir(json_file_dir) if os.path.isdir(os.path.join(json_file_dir, a))]
@@ -91,8 +93,8 @@ with open(json_stats_csv,"w") as csvfile:
 
                     # if i >= 10:
                     #     break
-
-                json_file_out = json_file.replace(".json", "_good.json")
+                
+                json_file_out = os.path.splitext(json_file)[0] + "_good.json"
 
                 with open(json_file_out, 'w') as outfile:
                     json.dump(good_data, outfile, indent=4, ensure_ascii=False)

@@ -12,7 +12,7 @@ llava_cc3m_pretrain-595k:
 docmatix:
     _target_: llava.data.LLaVADataset
     data_path: data/Docmatix/train.jsonl
-    media_dir: data/Docmatix 
+    media_dir: data/Docmatix/images
 
 # 468668 instances
 allava_caption_laion_4v:
@@ -37,3 +37,39 @@ art:
     _target_: llava.data.LLaVADataset
     data_path: data/ArT/ART_processed1_good.json
     media_dir: data/ArT/images
+
+evol_instruct:
+    _target_: llava.data.LLaVADataset
+    data_path: data/LLaVA-OneVision-Mid-Data/evol_instruct/evol_instruct_processed_good.json
+    media_dir: data/LLaVA-OneVision-Mid-Data/evol_instruct
+
+synthdog_en:
+    _target_: llava.data.LLaVADataset
+    data_path: data/LLaVA-OneVision-Mid-Data/synthdog_en/synthdog_en_processed_good.json
+    media_dir: data/LLaVA-OneVision-Mid-Data/synthdog_en
+
+synthdog_zh:
+    _target_: llava.data.LLaVADataset
+    data_path: data/LLaVA-OneVision-Mid-Data/synthdog_zh/synthdog_zh_processed_good.json
+    media_dir: data/LLaVA-OneVision-Mid-Data/synthdog_zh
+
+ureader_tr:
+    _target_: llava.data.LLaVADataset
+    data_path: data/LLaVA-OneVision-Mid-Data/ureader_tr/ureader_tr_processed_good.json
+    media_dir: data/LLaVA-OneVision-Mid-Data/ureader_tr
+
+llava_recap_118k:
+    _target_: llava.data.LLaVADataset
+    data_path: data/LLaVA-ReCap-118K/llava_recap_118k_good.json
+    media_dir: data/LLaVA-ReCap-118K/images
+
+llava_recap_558k:
+    _target_: llava.data.LLaVADataset
+    data_path: data/LLaVA-ReCap-558K/llava_recap_558k_good.json
+    media_dir: data/LLaVA-ReCap-558K/images
+
+llava_recap_cc3m:
+    _target_: llava.data.LLaVADataset
+    data_path: data/LLaVA-ReCap-CC3M/llava_recap_cc3m_good.json
+    media_dir: data/LLaVA-ReCap-CC3M/images
+
